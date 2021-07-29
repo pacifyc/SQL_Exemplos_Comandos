@@ -1,67 +1,89 @@
+
+
+
+
+
+
+
+--/__________________________________________________________________________
+
+    SQL Constraints (Restrições)
+
+    Principais:
+    * NOT NULL
+    * UNIQUE
+    * PRIMARY KEY
+    * FOREIGN KEY
+    * CHECK
+    * DEFAULT
+
+--/__________________________________________________________________________
+
+-- Criação do banco de dados
+
+[ Comando ]
+
 CREATE DATEABASE bd_Biblioteca
 ON PRIMARY(
-NAME= bd_Biblioteca,
-FILENAME='C:\SQL\bd_Biblioteca.MDF',
-SIZE=6MB,
-MAXSIZE=10MB,
-FILEGROWTH=10%
+    NAME= bd_Biblioteca,
+    FILENAME='C:\SQL\bd_Biblioteca.MDF',
+    SIZE=6MB,
+    MAXSIZE=10MB,
+    FILEGROWTH=10%
 )
 
---/___________________________
+--/-------------------------------------------------------------------------
 
-SQL Constraints (Restrições)
+-- Antes de criar uma tabela ou realizar qualquer operação, 
+  é necessário selecionar o banco de dados que vai ser usado.
 
-Principais:
-* NOT NULL
-* UNIQUE
-* PRIMARY KEY
-* FOREIGN KEY
-* CHECK
-* DEFAULT
+[ Comando ]
 
---/___________________________
+    USE bd_Biblioteca
 
 
--- Comando
+- Exibe informações do banco de dados
 
-USE bd_Biblioteca
+[ Comando ]
 
-sp_helpdb bd_Biblioteca
+    sp_helpdb bd_Biblioteca
 
---/___________________________
+--/-------------------------------------------------------------------------
 
---Criar Tabelas
+-- Criar Tabelas
 
-CREATE TABLE tbl_livros(
-ID_Livro SMALLINT PRIMARY KEY IDENTITY(100,1),
-Nome_Livro VARCHAR(50) NOT NULL,
-ISBN VARCHAR(30) NOT NULL UNIQUE,
-ID_Autor SMALLINT NOT NULL,
-Data_Pub DATETIME NOT NULL,
-Preso_Livro MONEY  NOT NULL
-)
+    CREATE TABLE tbl_livros(
+        ID_Livro SMALLINT PRIMARY KEY IDENTITY(100,1),
+        Nome_Livro VARCHAR(50) NOT NULL,
+        ISBN VARCHAR(30) NOT NULL UNIQUE,
+        ID_Autor SMALLINT NOT NULL,
+        Data_Pub DATETIME NOT NULL,
+        Preso_Livro MONEY  NOT NULL
+    )
 
-CREATE TABLE tbl_autores(
-ID_Autor SMALLINT PRIMARAY KEY,
-Nome_Autor VARCHAR(50),
-Sobrenome_Autor VARCHAR(60)
-)
+    CREATE TABLE tbl_autores(
+        ID_Autor SMALLINT PRIMARAY KEY,
+        Nome_Autor VARCHAR(50),
+        Sobrenome_Autor VARCHAR(60)
+    )
 
-CREATE TABLE tbl_editores(
-ID_Editora SMALLINT PRIMARY KEY IDENTITY,
-Nome_Editora VARCHAR(50) NOT NULL
-)
+    CREATE TABLE tbl_editores(
+        ID_Editora SMALLINT PRIMARY KEY IDENTITY,
+        Nome_Editora VARCHAR(50) NOT NULL
+    )
 
---/_______________________________________
+--/-------------------------------------------------------------------------
 
-sp_help tbl_livros
+- Exibe informações da tabela
 
-sp_help tbl_autores
+[ Comando ]
 
---/_______________________________________
+    sp_help tbl_livros
 
+    sp_help tbl_autores
 
---/___________________________
+--/-------------------------------------------------------------------------
+
 
 -- Alterar Tabelas 
 
@@ -80,11 +102,23 @@ ADD ID_Autor SMALLINT NOT NULL
 CONSTRAINT fk_ID_Autor Foreign key (ID_Autor)
 REFERENCES tbl_autores
 
+
 USE bd_Biblioteca
+
 ALTER TABLE tbl_livros                              --/ Altera a tabela 
 ADD ID_Editora SMALLINT NOT NULL                    --/ Adcinando uma nova coluna
 CONSTRAINT fk_id_editora FOREIGN KEY (ID_Editora)   --/ Denominando uma restrinção para chave estrangeira
 REFERENCES tbl_editores                             --/ Referenciando a tabela
+
+--/___________________________
+
+Alterar a tabela Cliente adicionando uma regra identificada como
+[ pk_cliente ] na qual define a chave primaria para a coluna [ codigo ]
+
+ALTER TABLE tbl_Clientes                            --/ Alterar a tabela Cliente
+ADD CONSTRAINT pk_cliente                           --/ adicionando uma regra identificada como [ pk_cliente ]
+PRIMARY KEY (idCliente);                            --/ na qual define a chave primaria para a coluna [ idCliente ]
+
 --/___________________________
 
 
